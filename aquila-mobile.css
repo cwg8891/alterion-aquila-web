@@ -1,0 +1,21 @@
+/* Aquila mobile — ANIMATION PLUMBING ONLY.
+ *
+ * Deliberately minimal. Everything here is required for the animation engine to
+ * work and is not a design decision. All typography, spacing and layout for the
+ * mobile section lives in Webflow classes, editable in the Style panel.
+ *
+ * Do not add design rules to this file — they would be invisible and
+ * un-editable to anyone working in the Webflow Designer.
+ */
+
+/* Stage SVGs scale to their container width and keep their aspect ratio. */
+.gwrap svg  { width:100%; height:auto; display:block; }
+.gwrap text { font-family:'IBM Plex Mono',monospace; }
+
+/* Scroll reveal. The engine's IntersectionObserver adds .on to each .blk.
+ * Gated behind .js-anim (set by aquila-mobile.js) so that in the Webflow
+ * Designer canvas — where scripts don't run — the copy stays fully visible
+ * and editable instead of collapsing to opacity 0. */
+.js-anim .blk    { opacity:0; transform:translateY(24px);
+                   transition:opacity .8s ease, transform .8s ease; }
+.js-anim .blk.on { opacity:1; transform:none; }
