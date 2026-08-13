@@ -1,33 +1,38 @@
-/* Aquila scrollytelling section — animation-critical CSS only.
-   Everything else (rail, hero, CTA, footer) comes from the Draco page's Webflow classes. */
+/* Aquila desktop — runtime layout for the pinned scrollytelling section.
+ *
+ * WHAT IS IN THIS FILE, AND WHY
+ *
+ * Only rules that MUST NOT apply inside the Webflow Designer, plus two rules for
+ * the SVG stage, which Webflow cannot style because it lives inside an Embed.
+ *
+ * Everything else — column widths, padding, spacing, typography, colour — lives
+ * in Webflow classes and is editable in the Style panel. If you find yourself
+ * wanting to add a design rule here, put it in Webflow instead.
+ *
+ * `.js-anim` is added to <html> by aquila.js when the animation engine starts.
+ * The Designer never runs page custom code, so in the canvas none of these apply
+ * and the section renders as the plain two-column layout built in Webflow.
+ */
 
-#pin      { position:relative; }
-#pinner   { position:sticky; top:0; height:100vh; margin-bottom:-100vh;
-            z-index:1; background:#0D0C0B; overflow:hidden; }
-#pin .sec { height:100vh; }
-
-#stagewrap{ position:absolute; inset:0; z-index:0; }
-#stage    { width:100%; height:100vh; display:block; }
-
-#copy     { position:absolute; left:68px; top:0; bottom:0; width:430px;
-            z-index:2; pointer-events:none; }
-
-.panel    { position:absolute; left:0; right:0; top:44%;
-            transform:translateY(-46%); opacity:0;
-            transition:opacity .55s ease, transform .55s ease; }
-.panel.on { opacity:1; transform:translateY(-54%); }
-
-/* Panel typography — scoped to #copy so it cannot leak into Webflow's global styles */
-#copy .kick      { font-family:'IBM Plex Mono',monospace; font-size:12px;
-                   letter-spacing:3px; color:#E8543A; margin:0 0 14px; }
-#copy .kick.grey { color:#8E8B86; }
-#copy h1         { font-size:44px; line-height:52px; font-weight:300;
-                   letter-spacing:-0.8px; margin:0 0 16px; color:#EDEDEA; }
-#copy h2         { font-size:34px; line-height:42px; font-weight:300;
-                   letter-spacing:-0.5px; margin:0 0 14px; color:#EDEDEA; }
-#copy p          { font-size:16px; line-height:27px; font-weight:300;
-                   color:#B5B2AC; margin:0 0 12px; max-width:430px; }
-#copy .stat      { font-family:'IBM Plex Mono',monospace; font-size:11px;
-                   letter-spacing:2px; color:#8E8B86; margin-top:18px; }
-
+/* The stage SVG lives inside an Embed, so Webflow can't reach it. */
+#stage      { width:100%; display:block; }
 #stage text { font-family:'IBM Plex Mono',monospace; }
+
+/* ---- Live page only ---- */
+.js-anim #stage     { height:100vh; }
+
+.js-anim #pin       { position:relative; }
+.js-anim #pinner    { display:block; position:sticky; top:0; height:100vh;
+                      margin-bottom:-100vh; z-index:1; overflow:hidden; }
+.js-anim #stagewrap { position:absolute; inset:0; z-index:0; }
+.js-anim #copy      { position:absolute; left:68px; top:0; bottom:0; width:430px;
+                      z-index:2; pointer-events:none; }
+.js-anim #pin .sec  { height:100vh; }
+
+.js-anim .panel     { position:absolute; left:0; right:0; top:44%;
+                      transform:translateY(-46%); opacity:0;
+                      transition:opacity .55s ease, transform .55s ease; }
+.js-anim .panel.on  { opacity:1; transform:translateY(-54%); }
+
+/* Placeholder text blocks built in Webflow, visible only in the Designer. */
+.js-anim .designer-note { display:none; }
