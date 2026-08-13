@@ -1,3 +1,43 @@
+/* Aquila desktop engine — v4
+ * Adds a visibility guard: the scene is only built, and the animation loop only
+ * started, when #pin is actually rendered. On viewports where #pin is hidden
+ * (mobile/tablet) nothing is constructed and no frames run.
+ *
+ * Also loads its Lottie data lazily from a sibling aquila-data.js when that
+ * global isn't already present — so the page may either keep loading
+ * aquila-data.js itself (existing behaviour) or drop that tag entirely.
+ */
+(function(){
+var __ds = (function(){
+  try { var s = document.currentScript && document.currentScript.src;
+        return s ? s.replace(/aquila\.js(\?.*)?$/, 'aquila-data.js') : null; }
+  catch(e){ return null; }
+})();
+var __started = false;
+
+function __visible(){
+  var e = document.getElementById('pin');
+  return !!(e && e.getClientRects().length);
+}
+function __boot(){
+  if (__started || !__visible()) return;
+  __started = true;
+  if (typeof LOT_OUT !== 'undefined') { __start(); return; }
+  if (!__ds) { __start(); return; }
+  var s = document.createElement('script');
+  s.src = __ds;
+  s.onload = __start;
+  s.onerror = function(){
+    /* Data failed to load. The Lottie block below reads LOT_OUT/LOT_FILL and
+       would throw a ReferenceError, killing the whole engine. Clearing the
+       lottie global makes that block return early instead, so the scene still
+       renders — just without the Lottie accents. */
+    try { window.lottie = undefined; } catch(e){}
+    __start();
+  };
+  document.head.appendChild(s);
+}
+function __start(){
 
 var CFG={"W": 1440, "H": 810, "CX": 1030, "CY": 350, "D": 1650.0, "F": 1480.0, "yaw0": -32, "pitch": 9, "planes": [{"name": "ENDPOINT AGENTS", "w": 1104.0, "h": 340.0, "x": -200.0, "y": -2.4000000000000004, "z": -430, "stroke": "#4A4845", "sop": 0.9, "fill": "#131211", "fop": 0.5, "lab": "#8E8B86", "kind": "endpoint"}, {"name": "AQUILA CODE", "w": 304.0, "h": 200.0, "x": -416.0, "y": -36.0, "z": 40, "stroke": "#6E6B66", "sop": 0.8, "fill": "#141311", "fop": 0.45, "lab": "#EDEDEA", "kind": "prod"}, {"name": "AQUILA BROWSER", "w": 304.0, "h": 200.0, "x": -44.0, "y": -36.0, "z": 40, "stroke": "#6E6B66", "sop": 0.85, "fill": "#141311", "fop": 0.45, "lab": "#EDEDEA", "kind": "prod"}, {"name": "AQUILA LOCAL GATEWAY", "w": 304.0, "h": 200.0, "x": 300.0, "y": -36.0, "z": 40, "stroke": "#6E6B66", "sop": 0.9, "fill": "#141311", "fop": 0.45, "lab": "#EDEDEA", "kind": "prod"}], "paths": [{"key": "code", "planeIdx": 1, "origin": [-496.0, -30.0], "gate": [8.0, -30.0], "exit": [-130, 72], "block": "BLOCKED \u00b7 SECRET", "acts": ["PROMPT", "TOOL CALL", "COMMIT"], "verdict": "ALLOW \u00b7 NOTIFY \u00b7 ASK \u00b7 BLOCK \u2014 BEFORE IT EXECUTES", "flag": false}, {"key": "browser", "planeIdx": 2, "origin": [-96.0, -75.0], "gate": [0.0, -30.0], "exit": [-130, 72], "block": "BLOCKED \u00b7 PII", "acts": ["PROMPT", "PASTE", "UPLOAD"], "verdict": "ALLOW \u00b7 NOTIFY \u00b7 ASK \u00b7 BLOCK \u2014 BEFORE DATA LEAVES THE TAB", "flag": false}, {"key": "gateway", "planeIdx": 3, "origin": [340.0, -95.0], "gate": [-8.0, -30.0], "exit": [-130, 72], "block": "FLAGGED \u00b7 UNKNOWN DEST", "acts": ["EGRESS", "API CALL", "UNKNOWN DEST"], "verdict": "DISCOVER \u00b7 CLASSIFY \u00b7 GOVERN \u2014 AT OS EGRESS", "flag": true, "noAsk": true, "allowTag": "OBSERVED"}], "camPan": [0, -30, 0, 20]};
 var LREADY=false;
@@ -1099,3 +1139,16 @@ function frame(now){
 }
 onScroll();
 requestAnimationFrame(frame);
+
+}
+function __ready(fn){
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn);
+  else fn();
+}
+__ready(__boot);
+var __t = null;
+addEventListener('resize', function(){
+  if (__started) return;
+  clearTimeout(__t); __t = setTimeout(__boot, 200);
+}, {passive:true});
+})();
