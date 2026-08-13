@@ -38,6 +38,10 @@ function __boot(){
   document.head.appendChild(s);
 }
 function __start(){
+/* Mark that the engine is live. aquila.css gates all pinned/absolute layout
+   behind .js-anim so the Webflow Designer canvas shows an editable
+   two-column layout instead of an invisible one. */
+document.documentElement.classList.add('js-anim');
 
 var CFG={"W": 1440, "H": 810, "CX": 1030, "CY": 350, "D": 1650.0, "F": 1480.0, "yaw0": -32, "pitch": 9, "planes": [{"name": "ENDPOINT AGENTS", "w": 1104.0, "h": 340.0, "x": -200.0, "y": -2.4000000000000004, "z": -430, "stroke": "#4A4845", "sop": 0.9, "fill": "#131211", "fop": 0.5, "lab": "#8E8B86", "kind": "endpoint"}, {"name": "AQUILA CODE", "w": 304.0, "h": 200.0, "x": -416.0, "y": -36.0, "z": 40, "stroke": "#6E6B66", "sop": 0.8, "fill": "#141311", "fop": 0.45, "lab": "#EDEDEA", "kind": "prod"}, {"name": "AQUILA BROWSER", "w": 304.0, "h": 200.0, "x": -44.0, "y": -36.0, "z": 40, "stroke": "#6E6B66", "sop": 0.85, "fill": "#141311", "fop": 0.45, "lab": "#EDEDEA", "kind": "prod"}, {"name": "AQUILA LOCAL GATEWAY", "w": 304.0, "h": 200.0, "x": 300.0, "y": -36.0, "z": 40, "stroke": "#6E6B66", "sop": 0.9, "fill": "#141311", "fop": 0.45, "lab": "#EDEDEA", "kind": "prod"}], "paths": [{"key": "code", "planeIdx": 1, "origin": [-496.0, -30.0], "gate": [8.0, -30.0], "exit": [-130, 72], "block": "BLOCKED \u00b7 SECRET", "acts": ["PROMPT", "TOOL CALL", "COMMIT"], "verdict": "ALLOW \u00b7 NOTIFY \u00b7 ASK \u00b7 BLOCK \u2014 BEFORE IT EXECUTES", "flag": false}, {"key": "browser", "planeIdx": 2, "origin": [-96.0, -75.0], "gate": [0.0, -30.0], "exit": [-130, 72], "block": "BLOCKED \u00b7 PII", "acts": ["PROMPT", "PASTE", "UPLOAD"], "verdict": "ALLOW \u00b7 NOTIFY \u00b7 ASK \u00b7 BLOCK \u2014 BEFORE DATA LEAVES THE TAB", "flag": false}, {"key": "gateway", "planeIdx": 3, "origin": [340.0, -95.0], "gate": [-8.0, -30.0], "exit": [-130, 72], "block": "FLAGGED \u00b7 UNKNOWN DEST", "acts": ["EGRESS", "API CALL", "UNKNOWN DEST"], "verdict": "DISCOVER \u00b7 CLASSIFY \u00b7 GOVERN \u2014 AT OS EGRESS", "flag": true, "noAsk": true, "allowTag": "OBSERVED"}], "camPan": [0, -30, 0, 20]};
 var LREADY=false;
