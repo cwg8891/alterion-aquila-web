@@ -1,17 +1,23 @@
 /* Aquila desktop — runtime layout for the pinned scrollytelling section.
  *
- * WHAT IS IN THIS FILE, AND WHY
+ * STRUCTURE (v8, "unpinned copy")
+ *   #pin
+ *     #pinner  → #stagewrap → svg#stage        the sticky graphic
+ *     .sec  ×4 → .panel                        one copy block per scroll step
  *
- * Only rules that MUST NOT apply inside the Webflow Designer, plus two rules for
- * the SVG stage, which Webflow cannot style because it lives inside an Embed.
+ * There is no #copy wrapper. Each panel sits inside its own .sec, so the copy
+ * flows down the page and the reader can see there is something below to scroll
+ * toward. The engine drives each panel's transform and opacity inline per frame.
  *
- * Everything else — column widths, padding, spacing, typography, colour — lives
- * in Webflow classes and is editable in the Style panel. If you find yourself
- * wanting to add a design rule here, put it in Webflow instead.
+ * WHAT IS IN THIS FILE
+ * Only rules that MUST NOT apply inside the Webflow Designer, plus two for the
+ * SVG stage, which Webflow cannot style because it lives inside an Embed.
+ * Everything else — widths, padding, spacing, typography, colour — lives in
+ * Webflow classes and is editable in the Style panel.
  *
- * `.js-anim` is added to <html> by aquila.js when the animation engine starts.
- * The Designer never runs page custom code, so in the canvas none of these apply
- * and the section renders as the plain two-column layout built in Webflow.
+ * `.js-anim` is added to <html> by aquila.js when the engine starts. The
+ * Designer never runs page custom code, so in the canvas none of these apply
+ * and the section renders as plain stacked blocks: readable and editable.
  */
 
 /* The stage SVG lives inside an Embed, so Webflow can't reach it. */
@@ -24,15 +30,20 @@
 .js-anim #pin       { position:relative; }
 .js-anim #pinner    { display:block; position:sticky; top:0; height:100vh;
                       margin-bottom:-100vh; z-index:1; overflow:hidden; }
-.js-anim #stagewrap { position:absolute; inset:0; z-index:0; }
-.js-anim #copy      { position:absolute; left:68px; top:0; bottom:0; width:430px;
-                      z-index:2; pointer-events:none; }
-.js-anim #pin .sec  { height:100vh; }
+.js-anim #stagewrap { position:absolute; inset:0; z-index:0;
+                      outline:none; min-height:0; }
 
-.js-anim .panel     { position:absolute; left:0; right:0; top:44%;
-                      transform:translateY(-46%); opacity:0;
-                      transition:opacity .55s ease, transform .55s ease; }
-.js-anim .panel.on  { opacity:1; transform:translateY(-54%); }
+.js-anim #pin .sec  { height:100vh; position:relative; z-index:2;
+                      pointer-events:none; }
+
+/* The engine writes transform and opacity inline on every scroll frame. */
+/* Position and fade only. The panel's WIDTH and LEFT OFFSET are Webflow
+   classes (width 430, margin-left 68) so a designer can change them — margin
+   still applies once the panel is absolutely positioned, so the same values
+   drive both the Designer canvas and the live page. */
+.js-anim .panel     { position:absolute; left:0; top:50%;
+                      transform:translateY(-50%); opacity:0;
+                      will-change:opacity,transform; }
 
 /* Placeholder text blocks built in Webflow, visible only in the Designer. */
 .js-anim .designer-note { display:none; }
