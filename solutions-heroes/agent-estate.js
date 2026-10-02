@@ -205,7 +205,7 @@ EstateHeroC.HTML=`<div class="esh"><canvas class="stage"></canvas><div class="es
 
 
 
-;(function(){var E=EstateHeroC,BASE="[data-alterion-hero]{position:relative;overflow:hidden;background:#050505}[data-alterion-hero]>.sa-hero{position:absolute;inset:0;overflow:hidden;background:#050505}.sa-hero .fx.sh{left:10%;width:80%}.sa-hero .fx .ro{display:none}",DATA={"emode": "chris"},WIN=false;
+;(function(){var E=EstateHeroC,BASE="[data-alterion-hero]{position:relative;overflow:hidden;background:transparent}[data-alterion-hero]>.sa-hero{position:absolute;inset:0;overflow:hidden;background:transparent}.sa-hero .fx.sh{left:10%;width:80%}.sa-hero .fx .ro{display:none}",DATA={"emode": "chris"},WIN=false;
 function css(){if(document.getElementById('alterion-hero-base'))return;var s=document.createElement('style');s.id='alterion-hero-base';s.textContent=BASE;document.head.appendChild(s)}
 function mount(el){if(el.__alterionHero)return;el.__alterionHero=1;css();
   if(!document.getElementById('alterion-hero-agent-estate')){var s=document.createElement('style');s.id='alterion-hero-agent-estate';s.textContent=E.CSS||'';document.head.appendChild(s)}
