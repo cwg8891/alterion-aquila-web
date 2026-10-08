@@ -1171,7 +1171,7 @@ CostHero.CARD_HTML="<div class=\"ui big\">\n      <div class=\"top\"><span class
    One instance per root (root holds canvas.stage + .fx.db). ============ */
 function DriftHeroB(root){
 const cv=root.querySelector('canvas.stage'), ctx=cv.getContext('2d');
-const GREY='#8E8B86', INK='#EDEDEA', AMBER='#C9931F';
+const GREY='#8E8B86', INK='#EDEDEA', AMBER='#E24840';
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const cl=u=>u<0?0:u>1?1:u, eoc=u=>1-Math.pow(1-cl(u),3), eio=u=>{u=cl(u);return u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2}, lerp=(a,b,t)=>a+(b-a)*t;
 function rng(seed){return ()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
@@ -1274,7 +1274,7 @@ DriftHeroB.CSS=`
 canvas.stage{position:absolute;inset:0;width:100%;height:100%;display:block}`;
 DriftHeroB.HTML=`<canvas class="stage"></canvas><div class="fx db"></div>`;
 DriftHeroB.CARD_CSS=`
-:host{--g1:#111;--g4:#2c2c2c;--white:#fff;--light2:#e2e2ea;--light:#a9a9b3;--amber:#C9931F;
+:host{--g1:#111;--g4:#2c2c2c;--white:#fff;--light2:#e2e2ea;--light:#a9a9b3;--amber:#E24840;
   --sans:"Host Grotesk Variable","Host Grotesk",-apple-system,"Helvetica Neue",Arial,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
 *{box-sizing:border-box}
 .a-ui{position:relative;border-radius:4px;container-type:inline-size;color:var(--light2)}
@@ -1289,17 +1289,17 @@ DriftHeroB.CARD_CSS=`
 .a-meta{font:400 max(9px,2.5cqw)/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--light);white-space:nowrap}
 .a-body{position:relative;padding:4.6cqw 5cqw 4.4cqw}
 .a-row{display:flex;gap:3cqw;align-items:flex-start}
-.a-x{flex:none;width:6.4cqw;height:6.4cqw;min-width:20px;min-height:20px;border:1px solid rgba(201,147,31,.6);border-radius:3px;background:rgba(201,147,31,.1);display:grid;place-items:center}
+.a-x{flex:none;width:6.4cqw;height:6.4cqw;min-width:20px;min-height:20px;border:1px solid rgba(226,72,64,.6);border-radius:3px;background:rgba(226,72,64,.1);display:grid;place-items:center}
 .a-x svg{width:56%;height:56%;display:block}
 .a-h{font:500 max(13px,4.2cqw)/1.15 var(--sans);color:var(--white);margin:.4cqw 0 1.6cqw}
 .a-p{font:400 max(11px,3.1cqw)/1.45 var(--sans);color:var(--light);margin:0}
 .a-foot{position:relative;padding:0 5cqw 5cqw}
 .a-btn{display:flex;width:100%;justify-content:center;align-items:center;font:500 max(10px,3cqw)/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;padding:3.6cqw 4cqw;border-radius:3px;background:#2e2e2e;color:var(--white);border:1px solid #3a3a3a;white-space:nowrap}`;
 DriftHeroB.CARD_HTML=`<div class="a-ui"><div class="dr-fill"></div><svg class="dr-draw" aria-hidden="true"><rect class="dr-frame" x="0.5" y="0.5" width="calc(100% - 1px)" height="calc(100% - 1px)" rx="4" pathLength="100"/><line class="dr-rule" x1="0" y1="0" x2="100%" y2="0" pathLength="100"/></svg>
-  <div class="a-top"><span class="a-title" data-el><svg viewBox="0 0 24 24" fill="none" stroke="#C9931F" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5L22 20.5H2Z"/><path d="M12 10v4.6" stroke-linecap="round"/><circle cx="12" cy="17.4" r=".9" fill="#C9931F" stroke="none"/></svg>Anomaly detected</span><span class="a-meta" data-el>billing-agent</span></div>
-  <div class="a-body"><div class="a-row" data-el><span class="a-x"><svg viewBox="0 0 16 16" fill="none" stroke="#C9931F" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></span>
-    <div><div class="a-h">Cost inefficiency</div><p class="a-p">Running a frontier model on tasks a small model handles. Spend is up 3.8× this week.</p></div></div></div>
-  <div class="a-foot"><span class="a-btn" data-el>Review agent</span></div>
+  <div class="a-top"><span class="a-title" data-el><svg viewBox="0 0 24 24" fill="none" stroke="#E24840" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M6 6l12 12"/></svg>Action blocked</span><span class="a-meta" data-el>billing-agent</span></div>
+  <div class="a-body"><div class="a-row" data-el><span class="a-x"><svg viewBox="0 0 16 16" fill="none" stroke="#E24840" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></span>
+    <div><div class="a-h">Routed around a guardrail</div><p class="a-p">Handed a blocked task to research-agent, which has wider access.</p></div></div></div>
+  <div class="a-foot"><span class="a-btn" data-el>Review incident</span></div>
 </div>`;
 ;
 
